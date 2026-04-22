@@ -6,13 +6,13 @@
     <style>
         body { font-family: sans-serif; margin: 20px; }
         svg { max-width: 100%; height: auto; display: block; margin: 20px 0; }
-        .hex { fill: #ffffff; stroke: #333333; stroke-width: 1px; }
+        .hex { fill: #ffffff; stroke: #333333; stroke-width: 1px; cursor: pointer; }
         .hex.highlight { fill: #ffeb3b; stroke: #d32f2f; stroke-width: 2px; }
         .hex-text { text-anchor: middle; dominant-baseline: central; font-family: monospace; font-size: 14px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>Hexbus Puzzle Helper</h1>
+   <h1>Hexbus Puzzle Helper</h1>
     <div id="status-message">Loading...</div>
     
     <div id="grid-container" style="display: none;">
@@ -20,15 +20,17 @@
     </div>
 
     <div id="hint-container" style="display: none;">
+        <p><em>Click "Next Hint" to step through the solution, or click directly on any hex to jump to its specific hint.</em></p>
         <p><strong>Step <span id="step-number">0</span>:</strong></p>
         <p id="hint-text"></p>
+        <button id="prev-btn">Previous Hint</button>
         <button id="next-btn">Next Hint</button>
     </div>
 
     <script>
         let puzzleData = null;
         let currentStepIndex = 0;
-        let boardState = new Map(); // Tracks current cell values: key "q,r" -> value
+        let boardState = new Map();
 
         document.addEventListener('DOMContentLoaded', () => {
             const puzzleId = window.location.search.substring(1);
@@ -46,23 +48,75 @@
                 .then(data => {
                     puzzleData = data;
                     
-                    // Initialize the board state from the starting layout
-                    puzzleData.board.cells.forEach(c => {
-                        boardState.set(`${c.q},${c.r}`, c.v);
-                    });
-
                     document.getElementById('status-message').style.display = 'none';
                     document.getElementById('grid-container').style.display = 'block';
                     document.getElementById('hint-container').style.display = 'block';
                     
-                    showNextHint();
+                    // Initialize at step 0
+                    goToStep(0);
                 })
                 .catch(error => {
                     document.getElementById('status-message').textContent = error.message;
                 });
 
-            document.getElementById('next-btn').addEventListener('click', showNextHint);
+            document.getElementById('next-btn').addEventListener('click', () => goToStep(currentStepIndex + 1));
+            document.getElementById('prev-btn').addEventListener('click', () => goToStep(currentStepIndex - 1));
         });
+
+        function handleHexClick(q, r) {
+            // Check if it's an initially provided cell
+            const isInitial = puzzleData.board.cells.some(c => c.q === q && c.r === r && c.v !== null);
+            if (isInitial) {
+                document.getElementById('hint-text').textContent = `Cell (Q:${q}, R:${r}) is part of the starting puzzle layout.`;
+                return;
+            }
+
+            // Find the step where this cell is solved
+            const trace = puzzleData.metadata.solver.trace;
+            const stepIndex = trace.findIndex(s => s.cell.q === q && s.cell.r === r);
+            
+            if (stepIndex !== -1) {
+                goToStep(stepIndex);
+            }
+        }
+
+        function goToStep(index) {
+            const trace = puzzleData.metadata.solver.trace;
+            if (index < 0 || index > trace.length) return;
+            
+            currentStepIndex = index;
+
+            // Rebuild board state from scratch
+            boardState.clear();
+            puzzleData.board.cells.forEach(c => {
+                boardState.set(`${c.q},${c.r}`, c.v);
+            });
+
+            // Apply all trace steps up to the step BEFORE the current one
+            for (let i = 0; i < currentStepIndex; i++) {
+                const step = trace[i];
+                boardState.set(`${step.cell.q},${step.cell.r}`, step.value);
+            }
+
+            if (currentStepIndex < trace.length) {
+                const step = trace[currentStepIndex];
+                
+                // Apply the current step's value so it renders
+                boardState.set(`${step.cell.q},${step.cell.r}`, step.value);
+                drawGrid(step.cell.q, step.cell.r);
+                
+                const hintText = `Look at cell (Q:${step.cell.q}, R:${step.cell.r}). ${step.justification}. Set value to ${step.value}.`;
+                document.getElementById('step-number').textContent = currentStepIndex + 1;
+                document.getElementById('hint-text').textContent = hintText;
+            } else {
+                drawGrid(null, null);
+                document.getElementById('hint-text').textContent = "Puzzle complete. No more hints available.";
+            }
+
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentStepIndex === 0;
+            document.getElementById('next-btn').disabled = currentStepIndex >= trace.length;
+        }
 
         function drawGrid(highlightQ, highlightR) {
             const svg = document.getElementById('hex-grid');
@@ -72,7 +126,6 @@
             boardState.forEach((val, key) => {
                 const [q, r] = key.split(',').map(Number);
                 
-                // Swap q and r mapping to fix the diagonal mirroring
                 const x = size * 3/2 * r;
                 const y = size * Math.sqrt(3) * (q + r/2);
 
@@ -86,6 +139,9 @@
                 const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
                 polygon.setAttribute("points", points.join(" "));
                 polygon.setAttribute("class", (q === highlightQ && r === highlightR) ? "hex highlight" : "hex");
+                
+                // Add click listener to the polygon
+                polygon.addEventListener('click', () => handleHexClick(q, r));
                 svg.appendChild(polygon);
 
                 if (val !== null) {
@@ -93,34 +149,12 @@
                     text.setAttribute("x", x);
                     text.setAttribute("y", y);
                     text.setAttribute("class", "hex-text");
+                    // Pass click events through text to the polygon underneath
+                    text.setAttribute("style", "pointer-events: none;");
                     text.textContent = val;
                     svg.appendChild(text);
                 }
             });
-        }
-
-        function showNextHint() {
-            const trace = puzzleData.metadata.solver.trace;
-            
-            if (currentStepIndex < trace.length) {
-                const step = trace[currentStepIndex];
-                
-                // Update board state with the new value before drawing
-                boardState.set(`${step.cell.q},${step.cell.r}`, step.value);
-                
-                drawGrid(step.cell.q, step.cell.r);
-                
-                const hintText = `Look at cell (Q:${step.cell.q}, R:${step.cell.r}). ${step.justification}. Set value to ${step.value}.`;
-                
-                document.getElementById('step-number').textContent = currentStepIndex + 1;
-                document.getElementById('hint-text').textContent = hintText;
-                
-                currentStepIndex++;
-            } else {
-                document.getElementById('hint-text').textContent = "Puzzle complete. No more hints available.";
-                document.getElementById('next-btn').disabled = true;
-                drawGrid(null, null); // Clear highlight on finish
-            }
         }
     </script>
 </body>
