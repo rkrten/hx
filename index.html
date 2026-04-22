@@ -20,9 +20,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Extract the puzzle ID from the URL (e.g., ?id=100)
-            const urlParams = new URLSearchParams(window.location.search);
-            const puzzleId = urlParams.get('id');
-
+            const puzzleId = window.location.search.substring(1);
             if (!puzzleId) {
                 document.getElementById('status-message').textContent = "Error: No puzzle ID provided in the URL.";
                 return;
