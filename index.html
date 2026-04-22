@@ -13,20 +13,20 @@
     </style>
 </head>
 <body>
-   <h1>Hexbus Puzzle Helper</h1>
+   <h1>Hexbus Puzzle #<span id="display-id"></span></h1>
     <div id="status-message">Loading...</div>
-    
+
     <div id="grid-container" style="display: none;">
         <svg id="hex-grid" viewBox="-160 -180 320 360"></svg>
     </div>
-    
+
     <div id="hint-container" style="display: none;">
         <p><em>Use the slider to match the board state on your paper, or drag it forward for the next hint.</em></p>
         <input type="range" id="time-slider" style="width: 100%; margin: 15px 0;">
         <p><strong>Step <span id="step-number">0</span>:</strong></p>
         <p id="hint-text"></p>
     </div>
-    
+
     <script>
         let puzzleData = null;
         let baseBoard = new Map();
@@ -41,6 +41,9 @@
                 return;
             }
 
+            // Set the puzzle number in the header
+            document.getElementById('display-id').textContent = puzzleId;
+
             fetch(`data/${puzzleId}.json`)
                 .then(response => {
                     if (!response.ok) throw new Error("Puzzle data not found.");
@@ -48,7 +51,7 @@
                 })
                 .then(data => {
                     puzzleData = data;
-                    
+
                     puzzleData.board.cells.forEach(c => {
                         baseBoard.set(`${c.q},${c.r}`, c.v);
                     });
@@ -56,18 +59,18 @@
                     document.getElementById('status-message').style.display = 'none';
                     document.getElementById('grid-container').style.display = 'block';
                     document.getElementById('hint-container').style.display = 'block';
-                    
+
                     const slider = document.getElementById('time-slider');
                     slider.min = 0;
                     slider.max = puzzleData.metadata.solver.trace.length;
                     slider.value = 0;
-                    
+
                     // Moving the slider clears the click hint and updates the board
                     slider.addEventListener('input', (e) => {
-                        clickedHintStep = null; 
+                        clickedHintStep = null;
                         updateBoardState(parseInt(e.target.value, 10));
                     });
-                    
+
                     updateBoardState(0);
                 })
                 .catch(error => {
@@ -87,7 +90,7 @@
             // Find the step where this cell is solved
             const trace = puzzleData.metadata.solver.trace;
             const stepIndex = trace.findIndex(s => s.cell.q === q && s.cell.r === r);
-            
+
             if (stepIndex !== -1) {
                 clickedHintStep = trace[stepIndex];
                 updateBoardState(currentSliderValue); // Re-render with new hint overlay
@@ -98,7 +101,7 @@
             currentSliderValue = sliderValue;
             const trace = puzzleData.metadata.solver.trace;
             const currentBoard = new Map(baseBoard);
-            
+
             // Build the board state up to the slider's position
             for (let i = 0; i < sliderValue; i++) {
                 const step = trace[i];
@@ -110,7 +113,7 @@
             if (clickedHintStep) {
                 highlightStep = clickedHintStep;
                 const isRevealed = trace.indexOf(clickedHintStep) < sliderValue;
-                
+
                 if (isRevealed) {
                     // Cell is already revealed by the slider; show full justification
                     document.getElementById('hint-text').textContent = `Cell (Q:${highlightStep.cell.q}, R:${highlightStep.cell.r}) was solved here. ${highlightStep.justification}`;
@@ -122,7 +125,7 @@
                 // Normal slider behavior
                 highlightStep = sliderValue > 0 ? trace[sliderValue - 1] : null;
                 document.getElementById('step-number').textContent = sliderValue;
-                
+
                 if (highlightStep) {
                     document.getElementById('hint-text').textContent = `Look at cell (Q:${highlightStep.cell.q}, R:${highlightStep.cell.r}). ${highlightStep.justification}. Set value to ${highlightStep.value}.`;
                 } else {
@@ -135,37 +138,37 @@
 
         function drawGrid(currentBoard, activeStep) {
             const svg = document.getElementById('hex-grid');
-            svg.innerHTML = ''; 
+            svg.innerHTML = '';
             const size = 15;
 
             baseBoard.forEach((_, key) => {
                 const [q, r] = key.split(',').map(Number);
                 const displayVal = currentBoard.get(key);
-                
+
                 let hexClass = "hex";
 
                 // Apply highlighting if there is an active step (from slider or click)
                 if (activeStep) {
                     const targetQ = activeStep.cell.q;
                     const targetR = activeStep.cell.r;
-                    
+
                     if (q === targetQ && r === targetR) {
-                        hexClass = "hex highlight"; 
+                        hexClass = "hex highlight";
                     } else if (activeStep.axis === "Q" && q === targetQ) {
-                        hexClass = "hex axis-highlight"; 
+                        hexClass = "hex axis-highlight";
                     } else if (activeStep.axis === "R" && r === targetR) {
-                        hexClass = "hex axis-highlight"; 
+                        hexClass = "hex axis-highlight";
                     } else if (activeStep.axis === "S" && (q + r) === (targetQ + targetR)) {
-                        hexClass = "hex axis-highlight"; 
+                        hexClass = "hex axis-highlight";
                     }
                 }
-                
+
                 const x = size * 3/2 * r;
                 const y = size * Math.sqrt(3) * (q + r/2);
 
                 let points = [];
                 for (let i = 0; i < 6; i++) {
-                    const angle_deg = 60 * i; 
+                    const angle_deg = 60 * i;
                     const angle_rad = Math.PI / 180 * angle_deg;
                     points.push(`${x + size * Math.cos(angle_rad)},${y + size * Math.sin(angle_rad)}`);
                 }
