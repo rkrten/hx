@@ -26,11 +26,11 @@
         <button id="prev-btn">Previous Hint</button>
         <button id="next-btn">Next Hint</button>
     </div>
-
+    
     <script>
         let puzzleData = null;
-        let currentStepIndex = 0;
-        let boardState = new Map();
+        let currentStepIndex = -1; // -1 indicates the base puzzle with no active hints
+        let baseBoard = new Map(); // Stores only the initial puzzle state
 
         document.addEventListener('DOMContentLoaded', () => {
             const puzzleId = window.location.search.substring(1);
@@ -48,82 +48,79 @@
                 .then(data => {
                     puzzleData = data;
                     
+                    // Load the base, unsolved board layout
+                    puzzleData.board.cells.forEach(c => {
+                        baseBoard.set(`${c.q},${c.r}`, c.v);
+                    });
+
                     document.getElementById('status-message').style.display = 'none';
                     document.getElementById('grid-container').style.display = 'block';
                     document.getElementById('hint-container').style.display = 'block';
                     
-                    // Initialize at step 0
-                    goToStep(0);
+                    // Display initial state
+                    updateHintText(-1);
                 })
                 .catch(error => {
                     document.getElementById('status-message').textContent = error.message;
                 });
 
-            document.getElementById('next-btn').addEventListener('click', () => goToStep(currentStepIndex + 1));
-            document.getElementById('prev-btn').addEventListener('click', () => goToStep(currentStepIndex - 1));
+            document.getElementById('next-btn').addEventListener('click', () => {
+                if (currentStepIndex < puzzleData.metadata.solver.trace.length - 1) {
+                    currentStepIndex++;
+                    updateHintText(currentStepIndex);
+                }
+            });
+            
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                if (currentStepIndex >= 0) {
+                    currentStepIndex--;
+                    updateHintText(currentStepIndex);
+                }
+            });
         });
 
         function handleHexClick(q, r) {
-            // Check if it's an initially provided cell
-            const isInitial = puzzleData.board.cells.some(c => c.q === q && c.r === r && c.v !== null);
-            if (isInitial) {
+            const baseVal = baseBoard.get(`${q},${r}`);
+            if (baseVal !== null) {
                 document.getElementById('hint-text').textContent = `Cell (Q:${q}, R:${r}) is part of the starting puzzle layout.`;
                 return;
             }
 
-            // Find the step where this cell is solved
             const trace = puzzleData.metadata.solver.trace;
             const stepIndex = trace.findIndex(s => s.cell.q === q && s.cell.r === r);
             
             if (stepIndex !== -1) {
-                goToStep(stepIndex);
+                currentStepIndex = stepIndex;
+                updateHintText(currentStepIndex);
             }
         }
 
-        function goToStep(index) {
+        function updateHintText(index) {
             const trace = puzzleData.metadata.solver.trace;
-            if (index < 0 || index > trace.length) return;
             
-            currentStepIndex = index;
-
-            // Rebuild board state from scratch
-            boardState.clear();
-            puzzleData.board.cells.forEach(c => {
-                boardState.set(`${c.q},${c.r}`, c.v);
-            });
-
-            // Apply all trace steps up to the step BEFORE the current one
-            for (let i = 0; i < currentStepIndex; i++) {
-                const step = trace[i];
-                boardState.set(`${step.cell.q},${step.cell.r}`, step.value);
-            }
-
-            if (currentStepIndex < trace.length) {
-                const step = trace[currentStepIndex];
-                
-                // Apply the current step's value so it renders
-                boardState.set(`${step.cell.q},${step.cell.r}`, step.value);
-                drawGrid(step.cell.q, step.cell.r);
+            if (index === -1) {
+                document.getElementById('step-number').textContent = "0";
+                document.getElementById('hint-text').textContent = "Select a hex or click Next Hint to begin.";
+                drawGrid(null); // Draw base board with no highlights
+            } else {
+                const step = trace[index];
+                drawGrid(step); // Draw base board + this specific step
                 
                 const hintText = `Look at cell (Q:${step.cell.q}, R:${step.cell.r}). ${step.justification}. Set value to ${step.value}.`;
-                document.getElementById('step-number').textContent = currentStepIndex + 1;
+                document.getElementById('step-number').textContent = index + 1;
                 document.getElementById('hint-text').textContent = hintText;
-            } else {
-                drawGrid(null, null);
-                document.getElementById('hint-text').textContent = "Puzzle complete. No more hints available.";
             }
 
-            // Update button states
-            document.getElementById('prev-btn').disabled = currentStepIndex === 0;
-            document.getElementById('next-btn').disabled = currentStepIndex >= trace.length;
+            document.getElementById('prev-btn').disabled = index === -1;
+            document.getElementById('next-btn').disabled = index >= trace.length - 1;
         }
 
-        function drawGrid(highlightQ, highlightR) {
+        function drawGrid(activeStep) {
             const svg = document.getElementById('hex-grid');
             svg.innerHTML = ''; 
             const size = 15;
 
-            boardState.forEach((val, key) => {
+            baseBoard.forEach((val, key) => {
                 const [q, r] = key.split(',').map(Number);
                 
                 const x = size * 3/2 * r;
@@ -136,22 +133,29 @@
                     points.push(`${x + size * Math.cos(angle_rad)},${y + size * Math.sin(angle_rad)}`);
                 }
 
+                // Default to the base board value
+                let displayVal = val;
+                let isHighlight = false;
+
+                // Override if this cell is the active hint
+                if (activeStep && activeStep.cell.q === q && activeStep.cell.r === r) {
+                    displayVal = activeStep.value;
+                    isHighlight = true;
+                }
+
                 const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
                 polygon.setAttribute("points", points.join(" "));
-                polygon.setAttribute("class", (q === highlightQ && r === highlightR) ? "hex highlight" : "hex");
-                
-                // Add click listener to the polygon
+                polygon.setAttribute("class", isHighlight ? "hex highlight" : "hex");
                 polygon.addEventListener('click', () => handleHexClick(q, r));
                 svg.appendChild(polygon);
 
-                if (val !== null) {
+                if (displayVal !== null) {
                     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
                     text.setAttribute("x", x);
                     text.setAttribute("y", y);
                     text.setAttribute("class", "hex-text");
-                    // Pass click events through text to the polygon underneath
                     text.setAttribute("style", "pointer-events: none;");
-                    text.textContent = val;
+                    text.textContent = displayVal;
                     svg.appendChild(text);
                 }
             });
