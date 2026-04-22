@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hexbus Hints</title>
+</head>
+<body>
+    <h1>Hexbus Puzzle Helper</h1>
+    <div id="status-message">Loading...</div>
+    <div id="hint-container" style="display: none;">
+        <p><strong>Step <span id="step-number">0</span>:</strong></p>
+        <p id="hint-text"></p>
+        <button id="next-btn">Next Hint</button>
+    </div>
+
+    <script>
+        // Global state to track hint progression
+        let puzzleData = null;
+        let currentStepIndex = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Extract the puzzle ID from the URL (e.g., ?id=100)
+            const urlParams = new URLSearchParams(window.location.search);
+            const puzzleId = urlParams.get('id');
+
+            if (!puzzleId) {
+                document.getElementById('status-message').textContent = "Error: No puzzle ID provided in the URL.";
+                return;
+            }
+
+            // 2. Fetch the corresponding JSON file
+            fetch(`data/${puzzleId}.json`)
+                .then(response => {
+                    if (!response.ok) throw new Error("Puzzle data not found.");
+                    return response.json();
+                })
+                .then(data => {
+                    puzzleData = data;
+                    document.getElementById('status-message').style.display = 'none';
+                    document.getElementById('hint-container').style.display = 'block';
+                    
+                    // Display the first hint
+                    showNextHint();
+                })
+                .catch(error => {
+                    document.getElementById('status-message').textContent = error.message;
+                });
+
+            // 3. Bind the button to advance hints
+            document.getElementById('next-btn').addEventListener('click', showNextHint);
+        });
+
+        function showNextHint() {
+            const trace = puzzleData.metadata.solver.trace;
+            
+            if (currentStepIndex < trace.length) {
+                const step = trace[currentStepIndex];
+                
+                // Format the hint text based on the JSON trace structure
+                const hintText = `Look at cell (Q:${step.cell.q}, R:${step.cell.r}). ${step.justification}. Set value to ${step.value}.`;
+                
+                document.getElementById('step-number').textContent = currentStepIndex + 1;
+                document.getElementById('hint-text').textContent = hintText;
+                
+                currentStepIndex++;
+            } else {
+                document.getElementById('hint-text').textContent = "Puzzle complete. No more hints available.";
+                document.getElementById('next-btn').disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
