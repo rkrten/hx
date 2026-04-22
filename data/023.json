@@ -1,0 +1,549 @@
+{
+  "board": {
+    "cells": [
+      {
+        "q": 0,
+        "r": -3,
+        "v": null
+      },
+      {
+        "q": 1,
+        "r": -3,
+        "v": null
+      },
+      {
+        "q": 2,
+        "r": -3,
+        "v": 1
+      },
+      {
+        "q": 3,
+        "r": -3,
+        "v": null
+      },
+      {
+        "q": -1,
+        "r": -2,
+        "v": 0
+      },
+      {
+        "q": 0,
+        "r": -2,
+        "v": 1
+      },
+      {
+        "q": 1,
+        "r": -2,
+        "v": null
+      },
+      {
+        "q": 2,
+        "r": -2,
+        "v": null
+      },
+      {
+        "q": 3,
+        "r": -2,
+        "v": 1
+      },
+      {
+        "q": -2,
+        "r": -1,
+        "v": null
+      },
+      {
+        "q": -1,
+        "r": -1,
+        "v": 1
+      },
+      {
+        "q": 0,
+        "r": -1,
+        "v": 0
+      },
+      {
+        "q": 1,
+        "r": -1,
+        "v": 1
+      },
+      {
+        "q": 2,
+        "r": -1,
+        "v": 1
+      },
+      {
+        "q": 3,
+        "r": -1,
+        "v": 0
+      },
+      {
+        "q": -3,
+        "r": 0,
+        "v": 1
+      },
+      {
+        "q": -2,
+        "r": 0,
+        "v": null
+      },
+      {
+        "q": -1,
+        "r": 0,
+        "v": 1
+      },
+      {
+        "q": 0,
+        "r": 0,
+        "v": 0
+      },
+      {
+        "q": 1,
+        "r": 0,
+        "v": 0
+      },
+      {
+        "q": 2,
+        "r": 0,
+        "v": null
+      },
+      {
+        "q": 3,
+        "r": 0,
+        "v": null
+      },
+      {
+        "q": -3,
+        "r": 1,
+        "v": null
+      },
+      {
+        "q": -2,
+        "r": 1,
+        "v": 1
+      },
+      {
+        "q": -1,
+        "r": 1,
+        "v": 0
+      },
+      {
+        "q": 0,
+        "r": 1,
+        "v": 1
+      },
+      {
+        "q": 1,
+        "r": 1,
+        "v": null
+      },
+      {
+        "q": 2,
+        "r": 1,
+        "v": 0
+      },
+      {
+        "q": -3,
+        "r": 2,
+        "v": 0
+      },
+      {
+        "q": -2,
+        "r": 2,
+        "v": 1
+      },
+      {
+        "q": -1,
+        "r": 2,
+        "v": null
+      },
+      {
+        "q": 0,
+        "r": 2,
+        "v": 0
+      },
+      {
+        "q": 1,
+        "r": 2,
+        "v": 1
+      },
+      {
+        "q": -3,
+        "r": 3,
+        "v": 1
+      },
+      {
+        "q": -2,
+        "r": 3,
+        "v": 0
+      },
+      {
+        "q": -1,
+        "r": 3,
+        "v": 1
+      },
+      {
+        "q": 0,
+        "r": 3,
+        "v": 0
+      }
+    ],
+    "radius": 3
+  },
+  "metadata": {
+    "generator": {
+      "seed": 16,
+      "tool": "hexbus-gen",
+      "version": "0.1.0"
+    },
+    "puncher": {
+      "cells_removed": 12,
+      "seed": 16,
+      "tier_config": {
+        "allow_contradiction": false,
+        "allow_hypothetical": false,
+        "allow_uniqueness": false,
+        "max_tier": 2
+      },
+      "tool": "hexbus-punch",
+      "version": "0.1.0"
+    },
+    "ruleset": {
+      "anti_triple": true,
+      "axis_count": true,
+      "axis_uniqueness": false,
+      "radius": 3
+    },
+    "solver": {
+      "max_tier_used": "T2",
+      "solution": [
+        {
+          "q": 0,
+          "r": -3,
+          "v": 1
+        },
+        {
+          "q": 1,
+          "r": -3,
+          "v": 0
+        },
+        {
+          "q": 2,
+          "r": -3,
+          "v": 1
+        },
+        {
+          "q": 3,
+          "r": -3,
+          "v": 0
+        },
+        {
+          "q": -1,
+          "r": -2,
+          "v": 0
+        },
+        {
+          "q": 0,
+          "r": -2,
+          "v": 1
+        },
+        {
+          "q": 1,
+          "r": -2,
+          "v": 0
+        },
+        {
+          "q": 2,
+          "r": -2,
+          "v": 0
+        },
+        {
+          "q": 3,
+          "r": -2,
+          "v": 1
+        },
+        {
+          "q": -2,
+          "r": -1,
+          "v": 0
+        },
+        {
+          "q": -1,
+          "r": -1,
+          "v": 1
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "v": 0
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "v": 1
+        },
+        {
+          "q": 2,
+          "r": -1,
+          "v": 1
+        },
+        {
+          "q": 3,
+          "r": -1,
+          "v": 0
+        },
+        {
+          "q": -3,
+          "r": 0,
+          "v": 1
+        },
+        {
+          "q": -2,
+          "r": 0,
+          "v": 0
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "v": 1
+        },
+        {
+          "q": 0,
+          "r": 0,
+          "v": 0
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "v": 0
+        },
+        {
+          "q": 2,
+          "r": 0,
+          "v": 1
+        },
+        {
+          "q": 3,
+          "r": 0,
+          "v": 1
+        },
+        {
+          "q": -3,
+          "r": 1,
+          "v": 0
+        },
+        {
+          "q": -2,
+          "r": 1,
+          "v": 1
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "v": 0
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "v": 1
+        },
+        {
+          "q": 1,
+          "r": 1,
+          "v": 1
+        },
+        {
+          "q": 2,
+          "r": 1,
+          "v": 0
+        },
+        {
+          "q": -3,
+          "r": 2,
+          "v": 0
+        },
+        {
+          "q": -2,
+          "r": 2,
+          "v": 1
+        },
+        {
+          "q": -1,
+          "r": 2,
+          "v": 0
+        },
+        {
+          "q": 0,
+          "r": 2,
+          "v": 0
+        },
+        {
+          "q": 1,
+          "r": 2,
+          "v": 1
+        },
+        {
+          "q": -3,
+          "r": 3,
+          "v": 1
+        },
+        {
+          "q": -2,
+          "r": 3,
+          "v": 0
+        },
+        {
+          "q": -1,
+          "r": 3,
+          "v": 1
+        },
+        {
+          "q": 0,
+          "r": 3,
+          "v": 0
+        }
+      ],
+      "tiers_used": [
+        "T1",
+        "T2"
+      ],
+      "tool": "hexbus-solve",
+      "trace": [
+        {
+          "axis": "S",
+          "cell": {
+            "q": 1,
+            "r": -3
+          },
+          "justification": "anti-triple: placing 1 at (1,-3) on s=2 would make three 1s in a row",
+          "step": 0,
+          "technique_tier": "T1",
+          "value": 0
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 2,
+            "r": -2
+          },
+          "justification": "anti-triple: placing 1 at (2,-2) on q=2 would make three 1s in a row",
+          "step": 1,
+          "technique_tier": "T1",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": -2,
+            "r": 0
+          },
+          "justification": "anti-triple: placing 1 at (-2,0) on r=0 would make three 1s in a row",
+          "step": 2,
+          "technique_tier": "T1",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": 2,
+            "r": 0
+          },
+          "justification": "anti-triple: placing 0 at (2,0) on r=0 would make three 0s in a row",
+          "step": 3,
+          "technique_tier": "T1",
+          "value": 1
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 0,
+            "r": -3
+          },
+          "justification": "count: q=0 already has 4 0s (cap reached), forces 1",
+          "step": 4,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": 3,
+            "r": -3
+          },
+          "justification": "count: r=-3 already has 2 1s (cap reached), forces 0",
+          "step": 5,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "S",
+          "cell": {
+            "q": 1,
+            "r": -2
+          },
+          "justification": "count: s=1 already has 3 1s (cap reached), forces 0",
+          "step": 6,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": -2,
+            "r": -1
+          },
+          "justification": "count: r=-1 already has 3 1s (cap reached), forces 0",
+          "step": 7,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 3,
+            "r": 0
+          },
+          "justification": "count: q=3 already has 2 0s (cap reached), forces 1",
+          "step": 8,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": -3,
+            "r": 1
+          },
+          "justification": "count: q=-3 already has 2 1s (cap reached), forces 0",
+          "step": 9,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": 1,
+            "r": 1
+          },
+          "justification": "count: r=1 already has 3 0s (cap reached), forces 1",
+          "step": 10,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": -1,
+            "r": 2
+          },
+          "justification": "count: q=-1 already has 3 1s (cap reached), forces 0",
+          "step": 11,
+          "technique_tier": "T2",
+          "value": 0
+        }
+      ],
+      "verdict": "unique",
+      "version": "0.1.0"
+    }
+  },
+  "schema_version": "1.0"
+}
