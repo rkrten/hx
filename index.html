@@ -29,7 +29,9 @@
     
     <script>
         let puzzleData = null;
-        let baseBoard = new Map(); // Stores the initial puzzle layout coordinates and values
+        let baseBoard = new Map();
+        let currentSliderValue = 0;
+        let clickedHintStep = null; // Tracks a manually clicked cell for hinting
 
         document.addEventListener('DOMContentLoaded', () => {
             const puzzleId = window.location.search.substring(1);
@@ -47,7 +49,6 @@
                 .then(data => {
                     puzzleData = data;
                     
-                    // Initialize base board map (including null values for empty cells)
                     puzzleData.board.cells.forEach(c => {
                         baseBoard.set(`${c.q},${c.r}`, c.v);
                     });
@@ -56,16 +57,17 @@
                     document.getElementById('grid-container').style.display = 'block';
                     document.getElementById('hint-container').style.display = 'block';
                     
-                    // Setup slider limits based on trace length
                     const slider = document.getElementById('time-slider');
                     slider.min = 0;
                     slider.max = puzzleData.metadata.solver.trace.length;
                     slider.value = 0;
                     
-                    // Listen for slider dragging
-                    slider.addEventListener('input', (e) => updateBoardState(parseInt(e.target.value, 10)));
+                    // Moving the slider clears the click hint and updates the board
+                    slider.addEventListener('input', (e) => {
+                        clickedHintStep = null; 
+                        updateBoardState(parseInt(e.target.value, 10));
+                    });
                     
-                    // Draw initial state
                     updateBoardState(0);
                 })
                 .catch(error => {
@@ -73,28 +75,62 @@
                 });
         });
 
+        function handleHexClick(q, r) {
+            // Check if it's an initially provided cell
+            if (baseBoard.get(`${q},${r}`) !== null) {
+                clickedHintStep = null;
+                document.getElementById('hint-text').textContent = `Cell (Q:${q}, R:${r}) is part of the starting puzzle layout.`;
+                updateBoardState(currentSliderValue);
+                return;
+            }
+
+            // Find the step where this cell is solved
+            const trace = puzzleData.metadata.solver.trace;
+            const stepIndex = trace.findIndex(s => s.cell.q === q && s.cell.r === r);
+            
+            if (stepIndex !== -1) {
+                clickedHintStep = trace[stepIndex];
+                updateBoardState(currentSliderValue); // Re-render with new hint overlay
+            }
+        }
+
         function updateBoardState(sliderValue) {
+            currentSliderValue = sliderValue;
             const trace = puzzleData.metadata.solver.trace;
             const currentBoard = new Map(baseBoard);
             
-            // Slider value dictates how many steps from the trace to apply
+            // Build the board state up to the slider's position
             for (let i = 0; i < sliderValue; i++) {
                 const step = trace[i];
                 currentBoard.set(`${step.cell.q},${step.cell.r}`, step.value);
             }
 
-            // Identify the active step (the most recently applied one)
-            const activeStep = sliderValue > 0 ? trace[sliderValue - 1] : null;
+            let highlightStep = null;
 
-            if (activeStep) {
-                document.getElementById('step-number').textContent = sliderValue;
-                document.getElementById('hint-text').textContent = `Look at cell (Q:${activeStep.cell.q}, R:${activeStep.cell.r}). ${activeStep.justification}. Set value to ${activeStep.value}.`;
+            if (clickedHintStep) {
+                highlightStep = clickedHintStep;
+                const isRevealed = trace.indexOf(clickedHintStep) < sliderValue;
+                
+                if (isRevealed) {
+                    // Cell is already revealed by the slider; show full justification
+                    document.getElementById('hint-text').textContent = `Cell (Q:${highlightStep.cell.q}, R:${highlightStep.cell.r}) was solved here. ${highlightStep.justification}`;
+                } else {
+                    // Cell is NOT revealed; give a nudge without spoiling value or full rule
+                    document.getElementById('hint-text').textContent = `Hint: Look along the ${highlightStep.axis}-axis to solve cell (Q:${highlightStep.cell.q}, R:${highlightStep.cell.r}).`;
+                }
             } else {
-                document.getElementById('step-number').textContent = "0";
-                document.getElementById('hint-text').textContent = "Base puzzle layout. Move the slider to begin.";
+                // Normal slider behavior
+                highlightStep = sliderValue > 0 ? trace[sliderValue - 1] : null;
+                document.getElementById('step-number').textContent = sliderValue;
+                
+                if (highlightStep) {
+                    document.getElementById('hint-text').textContent = `Look at cell (Q:${highlightStep.cell.q}, R:${highlightStep.cell.r}). ${highlightStep.justification}. Set value to ${highlightStep.value}.`;
+                } else {
+                    document.getElementById('hint-text').textContent = "Base puzzle layout. Move the slider to begin.";
+                }
             }
 
-            drawGrid(currentBoard, activeStep);
+            drawGrid(currentBoard, highlightStep);
         }
 
         function drawGrid(currentBoard, activeStep) {
@@ -102,25 +138,25 @@
             svg.innerHTML = ''; 
             const size = 15;
 
-            // Iterate over all coordinates from the base board to draw the grid
             baseBoard.forEach((_, key) => {
                 const [q, r] = key.split(',').map(Number);
                 const displayVal = currentBoard.get(key);
                 
                 let hexClass = "hex";
 
+                // Apply highlighting if there is an active step (from slider or click)
                 if (activeStep) {
                     const targetQ = activeStep.cell.q;
                     const targetR = activeStep.cell.r;
                     
                     if (q === targetQ && r === targetR) {
-                        hexClass = "hex highlight"; // The cell being solved
+                        hexClass = "hex highlight"; 
                     } else if (activeStep.axis === "Q" && q === targetQ) {
-                        hexClass = "hex axis-highlight"; // Shares Q axis
+                        hexClass = "hex axis-highlight"; 
                     } else if (activeStep.axis === "R" && r === targetR) {
-                        hexClass = "hex axis-highlight"; // Shares R axis
+                        hexClass = "hex axis-highlight"; 
                     } else if (activeStep.axis === "S" && (q + r) === (targetQ + targetR)) {
-                        hexClass = "hex axis-highlight"; // Shares S axis (s = -q - r)
+                        hexClass = "hex axis-highlight"; 
                     }
                 }
                 
@@ -137,6 +173,7 @@
                 const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
                 polygon.setAttribute("points", points.join(" "));
                 polygon.setAttribute("class", hexClass);
+                polygon.addEventListener('click', () => handleHexClick(q, r));
                 svg.appendChild(polygon);
 
                 if (displayVal !== null) {
@@ -144,12 +181,13 @@
                     text.setAttribute("x", x);
                     text.setAttribute("y", y);
                     text.setAttribute("class", "hex-text");
+                    text.setAttribute("style", "pointer-events: none;");
                     text.textContent = displayVal;
                     svg.appendChild(text);
                 }
             });
         }
-    </script> 
+    </script>
 
 </body>
 </html>
