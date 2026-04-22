@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hexbus Hints</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; }
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            font-size: 16px; /* Base size for readability */
+            line-height: 1.4;
+        }
         svg { max-width: 100%; height: auto; display: block; margin: 20px 0; }
-        .hex { fill: #ffffff; stroke: #333333; stroke-width: 1px; }
+        .hex { fill: #ffffff; stroke: #333333; stroke-width: 1px; cursor: pointer; }
         .hex.axis-highlight { fill: #e0f7fa; stroke: #00acc1; stroke-width: 1.5px; }
         .hex.highlight { fill: #ffeb3b; stroke: #d32f2f; stroke-width: 2px; }
         .hex-text { text-anchor: middle; dominant-baseline: central; font-family: monospace; font-size: 14px; font-weight: bold; }
+
+        /* Make the slider a better touch target on mobile */
+        input[type="range"] {
+            width: 100%;
+            margin: 15px 0;
+            min-height: 40px;
+        }
     </style>
 </head>
 <body>
