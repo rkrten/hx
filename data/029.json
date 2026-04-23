@@ -4,7 +4,7 @@
       {
         "q": 0,
         "r": -3,
-        "v": null
+        "v": 1
       },
       {
         "q": 1,
@@ -19,7 +19,7 @@
       {
         "q": 3,
         "r": -3,
-        "v": 1
+        "v": null
       },
       {
         "q": -1,
@@ -33,28 +33,28 @@
       },
       {
         "q": 1,
+        "r": -2,
+        "v": null
+      },
+      {
+        "q": 2,
+        "r": -2,
+        "v": null
+      },
+      {
+        "q": 3,
         "r": -2,
         "v": 0
       },
       {
-        "q": 2,
-        "r": -2,
-        "v": null
-      },
-      {
-        "q": 3,
-        "r": -2,
-        "v": null
-      },
-      {
         "q": -2,
         "r": -1,
-        "v": null
+        "v": 0
       },
       {
         "q": -1,
         "r": -1,
-        "v": null
+        "v": 0
       },
       {
         "q": 0,
@@ -139,12 +139,12 @@
       {
         "q": 2,
         "r": 1,
-        "v": null
+        "v": 1
       },
       {
         "q": -3,
         "r": 2,
-        "v": 0
+        "v": null
       },
       {
         "q": -2,
@@ -196,7 +196,7 @@
       "version": "0.1.0"
     },
     "puncher": {
-      "cells_removed": 32,
+      "cells_removed": 30,
       "seed": 61,
       "tier_config": {
         "allow_contradiction": false,
@@ -219,32 +219,32 @@
         {
           "q": 0,
           "r": -3,
-          "v": 0
+          "v": 1
         },
         {
           "q": 1,
           "r": -3,
-          "v": 0
+          "v": 1
         },
         {
           "q": 2,
           "r": -3,
-          "v": 1
+          "v": 0
         },
         {
           "q": 3,
           "r": -3,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
           "r": -2,
-          "v": 0
+          "v": 1
         },
         {
           "q": 0,
           "r": -2,
-          "v": 1
+          "v": 0
         },
         {
           "q": 1,
@@ -254,17 +254,17 @@
         {
           "q": 2,
           "r": -2,
-          "v": 0
+          "v": 1
         },
         {
           "q": 3,
           "r": -2,
-          "v": 1
+          "v": 0
         },
         {
           "q": -2,
           "r": -1,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
@@ -289,17 +289,17 @@
         {
           "q": 3,
           "r": -1,
-          "v": 0
+          "v": 1
         },
         {
           "q": -3,
           "r": 0,
-          "v": 1
+          "v": 0
         },
         {
           "q": -2,
           "r": 0,
-          "v": 0
+          "v": 1
         },
         {
           "q": -1,
@@ -319,17 +319,17 @@
         {
           "q": 2,
           "r": 0,
-          "v": 1
+          "v": 0
         },
         {
           "q": 3,
           "r": 0,
-          "v": 0
+          "v": 1
         },
         {
           "q": -3,
           "r": 1,
-          "v": 1
+          "v": 0
         },
         {
           "q": -2,
@@ -354,17 +354,17 @@
         {
           "q": 2,
           "r": 1,
-          "v": 0
+          "v": 1
         },
         {
           "q": -3,
           "r": 2,
-          "v": 0
+          "v": 1
         },
         {
           "q": -2,
           "r": 2,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
@@ -374,32 +374,32 @@
         {
           "q": 0,
           "r": 2,
-          "v": 0
+          "v": 1
         },
         {
           "q": 1,
           "r": 2,
-          "v": 1
+          "v": 0
         },
         {
           "q": -3,
           "r": 3,
-          "v": 0
+          "v": 1
         },
         {
           "q": -2,
           "r": 3,
-          "v": 0
+          "v": 1
         },
         {
           "q": -1,
           "r": 3,
-          "v": 1
+          "v": 0
         },
         {
           "q": 0,
           "r": 3,
-          "v": 1
+          "v": 0
         }
       ],
       "tiers_used": [
@@ -412,21 +412,21 @@
         {
           "axis": "R",
           "cell": {
-            "q": -2,
-            "r": 1
+            "q": 0,
+            "r": -1
           },
-          "justification": "anti-triple: placing 1 at (-2,1) on r=1 would make three 1s in a row",
+          "justification": "anti-triple: placing 0 at (0,-1) on r=-1 would make three 0s in a row",
           "step": 0,
           "technique_tier": "T1",
-          "value": 0
+          "value": 1
         },
         {
-          "axis": "R",
+          "axis": "Q",
           "cell": {
-            "q": 1,
-            "r": 1
+            "q": 0,
+            "r": -2
           },
-          "justification": "anti-triple: placing 1 at (1,1) on r=1 would make three 1s in a row",
+          "justification": "anti-triple: placing 1 at (0,-2) on q=0 would make three 1s in a row",
           "step": 1,
           "technique_tier": "T1",
           "value": 0
@@ -434,34 +434,23 @@
         {
           "axis": "S",
           "cell": {
-            "q": 2,
+            "q": 1,
             "r": -3
           },
-          "justification": "count: s=1 already has 3 0s (cap reached), forces 1",
+          "justification": "anti-triple: placing 0 at (1,-3) on s=2 would make three 0s in a row",
           "step": 2,
-          "technique_tier": "T2",
+          "technique_tier": "T1",
           "value": 1
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": 0,
-            "r": -3
-          },
-          "justification": "count: r=-3 already has 2 1s (cap reached), forces 0",
-          "step": 3,
-          "technique_tier": "T2",
-          "value": 0
         },
         {
           "axis": "S",
           "cell": {
-            "q": 0,
-            "r": -1
+            "q": -2,
+            "r": 0
           },
-          "justification": "count: s=1 already has 3 0s (cap reached), forces 1",
-          "step": 4,
-          "technique_tier": "T2",
+          "justification": "anti-triple: placing 0 at (-2,0) on s=2 would make three 0s in a row",
+          "step": 3,
+          "technique_tier": "T1",
           "value": 1
         },
         {
@@ -471,18 +460,106 @@
             "r": 0
           },
           "justification": "anti-triple: placing 1 at (0,0) on q=0 would make three 1s in a row",
-          "step": 5,
+          "step": 4,
           "technique_tier": "T1",
           "value": 0
         },
         {
           "axis": "R",
           "cell": {
-            "q": 1,
+            "q": 3,
             "r": -3
           },
-          "justification": "combined local+count: placing 1 at (1,-3) violates both triple (on r=-3) and count (on r=-3)",
+          "justification": "count: r=-3 already has 2 1s (cap reached), forces 0",
+          "step": 5,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 3,
+            "r": 0
+          },
+          "justification": "count: q=3 already has 2 0s (cap reached), forces 1",
           "step": 6,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": -3,
+            "r": 1
+          },
+          "justification": "count: r=1 already has 3 1s (cap reached), forces 0",
+          "step": 7,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "S",
+          "cell": {
+            "q": 0,
+            "r": 3
+          },
+          "justification": "count: s=-3 already has 2 1s (cap reached), forces 0",
+          "step": 8,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": 2,
+            "r": -3
+          },
+          "justification": "combined local+count: placing 1 at (2,-3) violates both triple (on r=-3) and count (on r=-3)",
+          "step": 9,
+          "technique_tier": "T3",
+          "value": 0
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 3,
+            "r": -1
+          },
+          "justification": "combined local+count: placing 0 at (3,-1) violates both triple (on q=3) and count (on q=3)",
+          "step": 10,
+          "technique_tier": "T3",
+          "value": 1
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": -2,
+            "r": 1
+          },
+          "justification": "combined local+count: placing 1 at (-2,1) violates both triple (on r=1) and count (on r=1)",
+          "step": 11,
+          "technique_tier": "T3",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": 1,
+            "r": 1
+          },
+          "justification": "combined local+count: placing 1 at (1,1) violates both triple (on r=1) and count (on r=1)",
+          "step": 12,
+          "technique_tier": "T3",
+          "value": 0
+        },
+        {
+          "axis": "S",
+          "cell": {
+            "q": 1,
+            "r": 2
+          },
+          "justification": "combined local+count: placing 1 at (1,2) violates both triple (on s=-3) and count (on s=-3)",
+          "step": 13,
           "technique_tier": "T3",
           "value": 0
         },
@@ -492,9 +569,9 @@
             "q": 1,
             "r": 0
           },
-          "justification": "count: q=1 already has 3 0s (cap reached), forces 1",
-          "step": 7,
-          "technique_tier": "T2",
+          "justification": "anti-triple: placing 0 at (1,0) on q=1 would make three 0s in a row",
+          "step": 14,
+          "technique_tier": "T1",
           "value": 1
         },
         {
@@ -504,7 +581,29 @@
             "r": -1
           },
           "justification": "anti-triple: placing 1 at (2,-1) on s=-1 would make three 1s in a row",
-          "step": 8,
+          "step": 15,
+          "technique_tier": "T1",
+          "value": 0
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 2,
+            "r": -2
+          },
+          "justification": "anti-triple: placing 0 at (2,-2) on q=2 would make three 0s in a row",
+          "step": 16,
+          "technique_tier": "T1",
+          "value": 1
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": 2,
+            "r": 0
+          },
+          "justification": "anti-triple: placing 1 at (2,0) on r=0 would make three 1s in a row",
+          "step": 17,
           "technique_tier": "T1",
           "value": 0
         },
@@ -515,138 +614,39 @@
             "r": 2
           },
           "justification": "anti-triple: placing 1 at (-1,2) on s=-1 would make three 1s in a row",
-          "step": 9,
-          "technique_tier": "T1",
-          "value": 0
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": -2,
-            "r": 2
-          },
-          "justification": "anti-triple: placing 0 at (-2,2) on r=2 would make three 0s in a row",
-          "step": 10,
-          "technique_tier": "T1",
-          "value": 1
-        },
-        {
-          "axis": "S",
-          "cell": {
-            "q": -3,
-            "r": 3
-          },
-          "justification": "anti-triple: placing 1 at (-3,3) on s=0 would make three 1s in a row",
-          "step": 11,
-          "technique_tier": "T1",
-          "value": 0
-        },
-        {
-          "axis": "Q",
-          "cell": {
-            "q": -3,
-            "r": 0
-          },
-          "justification": "count: q=-3 already has 2 0s (cap reached), forces 1",
-          "step": 12,
-          "technique_tier": "T2",
-          "value": 1
-        },
-        {
-          "axis": "Q",
-          "cell": {
-            "q": 1,
-            "r": 2
-          },
-          "justification": "count: q=1 already has 3 0s (cap reached), forces 1",
-          "step": 13,
-          "technique_tier": "T2",
-          "value": 1
-        },
-        {
-          "axis": "Q",
-          "cell": {
-            "q": 1,
-            "r": -1
-          },
-          "justification": "combined local+count: placing 0 at (1,-1) violates both triple (on q=1) and count (on q=1)",
-          "step": 14,
-          "technique_tier": "T3",
-          "value": 1
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": -1,
-            "r": -1
-          },
-          "justification": "anti-triple: placing 1 at (-1,-1) on r=-1 would make three 1s in a row",
-          "step": 15,
-          "technique_tier": "T1",
-          "value": 0
-        },
-        {
-          "axis": "S",
-          "cell": {
-            "q": 0,
-            "r": -2
-          },
-          "justification": "anti-triple: placing 0 at (0,-2) on s=2 would make three 0s in a row",
-          "step": 16,
-          "technique_tier": "T1",
-          "value": 1
-        },
-        {
-          "axis": "S",
-          "cell": {
-            "q": 2,
-            "r": -2
-          },
-          "justification": "combined local+count: placing 1 at (2,-2) violates both triple (on s=0) and count (on s=0)",
-          "step": 17,
-          "technique_tier": "T3",
-          "value": 0
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": 3,
-            "r": -2
-          },
-          "justification": "anti-triple: placing 0 at (3,-2) on r=-2 would make three 0s in a row",
           "step": 18,
           "technique_tier": "T1",
-          "value": 1
+          "value": 0
         },
         {
-          "axis": "Q",
+          "axis": "R",
           "cell": {
-            "q": 2,
-            "r": 0
+            "q": 0,
+            "r": 2
           },
-          "justification": "anti-triple: placing 0 at (2,0) on q=2 would make three 0s in a row",
+          "justification": "anti-triple: placing 0 at (0,2) on r=2 would make three 0s in a row",
           "step": 19,
           "technique_tier": "T1",
           "value": 1
         },
         {
+          "axis": "R",
+          "cell": {
+            "q": 1,
+            "r": -1
+          },
+          "justification": "count: r=-1 already has 3 0s (cap reached), forces 1",
+          "step": 20,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
           "axis": "S",
           "cell": {
             "q": -2,
             "r": 3
           },
-          "justification": "count: s=-1 already has 3 1s (cap reached), forces 0",
-          "step": 20,
-          "technique_tier": "T2",
-          "value": 0
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": 0,
-            "r": 3
-          },
-          "justification": "count: r=3 already has 2 0s (cap reached), forces 1",
+          "justification": "count: s=-1 already has 3 0s (cap reached), forces 1",
           "step": 21,
           "technique_tier": "T2",
           "value": 1
@@ -654,21 +654,21 @@
         {
           "axis": "Q",
           "cell": {
-            "q": 3,
-            "r": -1
+            "q": 1,
+            "r": -2
           },
-          "justification": "combined local+count: placing 1 at (3,-1) violates both triple (on q=3) and count (on q=3)",
+          "justification": "combined local+count: placing 1 at (1,-2) violates both triple (on q=1) and count (on q=1)",
           "step": 22,
           "technique_tier": "T3",
           "value": 0
         },
         {
-          "axis": "R",
+          "axis": "S",
           "cell": {
-            "q": -2,
-            "r": -1
+            "q": -1,
+            "r": 0
           },
-          "justification": "count: r=-1 already has 3 0s (cap reached), forces 1",
+          "justification": "count: s=1 already has 3 0s (cap reached), forces 1",
           "step": 23,
           "technique_tier": "T2",
           "value": 1
@@ -676,90 +676,68 @@
         {
           "axis": "S",
           "cell": {
+            "q": -3,
+            "r": 2
+          },
+          "justification": "count: s=1 already has 3 0s (cap reached), forces 1",
+          "step": 24,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
+          "axis": "R",
+          "cell": {
             "q": -1,
             "r": -2
           },
-          "justification": "combined local+count: placing 1 at (-1,-2) violates both triple (on s=3) and count (on s=3)",
-          "step": 24,
-          "technique_tier": "T3",
-          "value": 0
-        },
-        {
-          "axis": "Q",
-          "cell": {
-            "q": -1,
-            "r": 0
-          },
-          "justification": "combined local+count: placing 0 at (-1,0) violates both triple (on q=-1) and count (on q=-1)",
+          "justification": "combined local+count: placing 0 at (-1,-2) violates both triple (on r=-2) and count (on r=-2)",
           "step": 25,
           "technique_tier": "T3",
           "value": 1
         },
         {
-          "axis": "R",
-          "cell": {
-            "q": -2,
-            "r": 0
-          },
-          "justification": "combined local+count: placing 1 at (-2,0) violates both triple (on r=0) and count (on r=0)",
-          "step": 26,
-          "technique_tier": "T3",
-          "value": 0
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": 3,
-            "r": 0
-          },
-          "justification": "combined local+count: placing 1 at (3,0) violates both triple (on r=0) and count (on r=0)",
-          "step": 27,
-          "technique_tier": "T3",
-          "value": 0
-        },
-        {
           "axis": "Q",
-          "cell": {
-            "q": -3,
-            "r": 1
-          },
-          "justification": "combined local+count: placing 0 at (-3,1) violates both triple (on q=-3) and count (on q=-3)",
-          "step": 28,
-          "technique_tier": "T3",
-          "value": 1
-        },
-        {
-          "axis": "S",
-          "cell": {
-            "q": 2,
-            "r": 1
-          },
-          "justification": "combined local+count: placing 1 at (2,1) violates both triple (on s=-3) and count (on r=1)",
-          "step": 29,
-          "technique_tier": "T3",
-          "value": 0
-        },
-        {
-          "axis": "Q",
-          "cell": {
-            "q": 0,
-            "r": 2
-          },
-          "justification": "combined local+count: placing 1 at (0,2) violates both triple (on q=0) and count (on q=0)",
-          "step": 30,
-          "technique_tier": "T3",
-          "value": 0
-        },
-        {
-          "axis": "R",
           "cell": {
             "q": -1,
             "r": 3
           },
-          "justification": "combined local+count: placing 0 at (-1,3) violates both triple (on r=3) and count (on r=3)",
-          "step": 31,
-          "technique_tier": "T3",
+          "justification": "count: q=-1 already has 3 1s (cap reached), forces 0",
+          "step": 26,
+          "technique_tier": "T2",
+          "value": 0
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": -3,
+            "r": 3
+          },
+          "justification": "count: r=3 already has 2 0s (cap reached), forces 1",
+          "step": 27,
+          "technique_tier": "T2",
           "value": 1
+        },
+        {
+          "axis": "R",
+          "cell": {
+            "q": -3,
+            "r": 0
+          },
+          "justification": "combined local+count: placing 1 at (-3,0) violates both triple (on r=0) and count (on r=0)",
+          "step": 28,
+          "technique_tier": "T3",
+          "value": 0
+        },
+        {
+          "axis": "S",
+          "cell": {
+            "q": -2,
+            "r": 2
+          },
+          "justification": "combined local+count: placing 1 at (-2,2) violates both triple (on s=0) and count (on s=0)",
+          "step": 29,
+          "technique_tier": "T3",
+          "value": 0
         }
       ],
       "verdict": "unique",

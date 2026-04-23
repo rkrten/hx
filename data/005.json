@@ -4,17 +4,17 @@
       {
         "q": 0,
         "r": -2,
-        "v": 0
+        "v": 1
       },
       {
         "q": 1,
         "r": -2,
-        "v": null
+        "v": 0
       },
       {
         "q": 2,
         "r": -2,
-        "v": 1
+        "v": 0
       },
       {
         "q": -1,
@@ -24,12 +24,12 @@
       {
         "q": 0,
         "r": -1,
-        "v": 1
+        "v": 0
       },
       {
         "q": 1,
         "r": -1,
-        "v": 0
+        "v": 1
       },
       {
         "q": 2,
@@ -39,12 +39,12 @@
       {
         "q": -2,
         "r": 0,
-        "v": 1
+        "v": 0
       },
       {
         "q": -1,
         "r": 0,
-        "v": 0
+        "v": 1
       },
       {
         "q": 0,
@@ -54,7 +54,7 @@
       {
         "q": 1,
         "r": 0,
-        "v": 1
+        "v": null
       },
       {
         "q": 2,
@@ -69,12 +69,12 @@
       {
         "q": -1,
         "r": 1,
-        "v": 1
+        "v": 0
       },
       {
         "q": 0,
         "r": 1,
-        "v": null
+        "v": 1
       },
       {
         "q": 1,
@@ -84,7 +84,7 @@
       {
         "q": -2,
         "r": 2,
-        "v": 0
+        "v": 1
       },
       {
         "q": -1,
@@ -106,7 +106,7 @@
       "version": "0.1.0"
     },
     "puncher": {
-      "cells_removed": 4,
+      "cells_removed": 3,
       "seed": 0,
       "tier_config": {
         "allow_contradiction": false,
@@ -129,17 +129,17 @@
         {
           "q": 0,
           "r": -2,
-          "v": 0
+          "v": 1
         },
         {
           "q": 1,
           "r": -2,
-          "v": 1
+          "v": 0
         },
         {
           "q": 2,
           "r": -2,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
@@ -149,12 +149,12 @@
         {
           "q": 0,
           "r": -1,
-          "v": 1
+          "v": 0
         },
         {
           "q": 1,
           "r": -1,
-          "v": 0
+          "v": 1
         },
         {
           "q": 2,
@@ -164,12 +164,12 @@
         {
           "q": -2,
           "r": 0,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
           "r": 0,
-          "v": 0
+          "v": 1
         },
         {
           "q": 0,
@@ -189,12 +189,12 @@
         {
           "q": -2,
           "r": 1,
-          "v": 0
+          "v": 1
         },
         {
           "q": -1,
           "r": 1,
-          "v": 1
+          "v": 0
         },
         {
           "q": 0,
@@ -209,7 +209,7 @@
         {
           "q": -2,
           "r": 2,
-          "v": 0
+          "v": 1
         },
         {
           "q": -1,
@@ -228,46 +228,35 @@
       "tool": "hexbus-solve",
       "trace": [
         {
-          "axis": "Q",
-          "cell": {
-            "q": 1,
-            "r": -2
-          },
-          "justification": "count: q=1 already has 2 0s (cap reached), forces 1",
-          "step": 0,
-          "technique_tier": "T2",
-          "value": 1
-        },
-        {
           "axis": "R",
           "cell": {
             "q": -1,
             "r": -1
           },
           "justification": "count: r=-1 already has 2 0s (cap reached), forces 1",
+          "step": 0,
+          "technique_tier": "T2",
+          "value": 1
+        },
+        {
+          "axis": "Q",
+          "cell": {
+            "q": 1,
+            "r": 0
+          },
+          "justification": "count: q=1 already has 2 0s (cap reached), forces 1",
           "step": 1,
           "technique_tier": "T2",
           "value": 1
         },
         {
-          "axis": "S",
+          "axis": "R",
           "cell": {
             "q": -2,
             "r": 1
           },
-          "justification": "count: s=1 already has 2 1s (cap reached), forces 0",
-          "step": 2,
-          "technique_tier": "T2",
-          "value": 0
-        },
-        {
-          "axis": "R",
-          "cell": {
-            "q": 0,
-            "r": 1
-          },
           "justification": "count: r=1 already has 2 0s (cap reached), forces 1",
-          "step": 3,
+          "step": 2,
           "technique_tier": "T2",
           "value": 1
         }

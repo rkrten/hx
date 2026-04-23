@@ -4,7 +4,7 @@
       {
         "q": 0,
         "r": -2,
-        "v": 0
+        "v": null
       },
       {
         "q": 1,
@@ -14,7 +14,7 @@
       {
         "q": 2,
         "r": -2,
-        "v": null
+        "v": 0
       },
       {
         "q": -1,
@@ -24,7 +24,7 @@
       {
         "q": 0,
         "r": -1,
-        "v": null
+        "v": 0
       },
       {
         "q": 1,
@@ -39,12 +39,12 @@
       {
         "q": -2,
         "r": 0,
-        "v": null
+        "v": 0
       },
       {
         "q": -1,
         "r": 0,
-        "v": 0
+        "v": null
       },
       {
         "q": 0,
@@ -59,7 +59,7 @@
       {
         "q": 2,
         "r": 0,
-        "v": 0
+        "v": null
       },
       {
         "q": -2,
@@ -69,7 +69,7 @@
       {
         "q": -1,
         "r": 1,
-        "v": null
+        "v": 0
       },
       {
         "q": 0,
@@ -84,7 +84,7 @@
       {
         "q": -2,
         "r": 2,
-        "v": 0
+        "v": null
       },
       {
         "q": -1,
@@ -94,7 +94,7 @@
       {
         "q": 0,
         "r": 2,
-        "v": null
+        "v": 0
       }
     ],
     "radius": 2
@@ -106,7 +106,7 @@
       "version": "0.1.0"
     },
     "puncher": {
-      "cells_removed": 8,
+      "cells_removed": 7,
       "seed": 13,
       "tier_config": {
         "allow_contradiction": false,
@@ -129,7 +129,7 @@
         {
           "q": 0,
           "r": -2,
-          "v": 0
+          "v": 1
         },
         {
           "q": 1,
@@ -139,7 +139,7 @@
         {
           "q": 2,
           "r": -2,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
@@ -164,7 +164,7 @@
         {
           "q": -2,
           "r": 0,
-          "v": 1
+          "v": 0
         },
         {
           "q": -1,
@@ -184,7 +184,7 @@
         {
           "q": 2,
           "r": 0,
-          "v": 0
+          "v": 1
         },
         {
           "q": -2,
@@ -209,7 +209,7 @@
         {
           "q": -2,
           "r": 2,
-          "v": 0
+          "v": 1
         },
         {
           "q": -1,
@@ -219,7 +219,7 @@
         {
           "q": 0,
           "r": 2,
-          "v": 1
+          "v": 0
         }
       ],
       "tiers_used": [
@@ -230,7 +230,7 @@
         {
           "axis": "R",
           "cell": {
-            "q": 0,
+            "q": 1,
             "r": -1
           },
           "justification": "count: r=-1 already has 2 1s (cap reached), forces 0",
@@ -239,12 +239,12 @@
           "value": 0
         },
         {
-          "axis": "R",
+          "axis": "Q",
           "cell": {
-            "q": 1,
-            "r": -1
+            "q": -1,
+            "r": 0
           },
-          "justification": "count: r=-1 already has 2 1s (cap reached), forces 0",
+          "justification": "count: q=-1 already has 2 1s (cap reached), forces 0",
           "step": 1,
           "technique_tier": "T2",
           "value": 0
@@ -263,7 +263,7 @@
         {
           "axis": "R",
           "cell": {
-            "q": -2,
+            "q": 2,
             "r": 0
           },
           "justification": "count: r=0 already has 3 0s (cap reached), forces 1",
@@ -274,7 +274,7 @@
         {
           "axis": "R",
           "cell": {
-            "q": -1,
+            "q": 0,
             "r": 1
           },
           "justification": "count: r=1 already has 2 1s (cap reached), forces 0",
@@ -283,35 +283,24 @@
           "value": 0
         },
         {
-          "axis": "S",
+          "axis": "Q",
           "cell": {
-            "q": 2,
+            "q": 0,
             "r": -2
           },
-          "justification": "count: s=0 already has 3 0s (cap reached), forces 1",
+          "justification": "count: q=0 already has 3 0s (cap reached), forces 1",
           "step": 5,
           "technique_tier": "T2",
           "value": 1
         },
         {
-          "axis": "R",
+          "axis": "S",
           "cell": {
-            "q": 0,
-            "r": 1
-          },
-          "justification": "count: r=1 already has 2 1s (cap reached), forces 0",
-          "step": 6,
-          "technique_tier": "T2",
-          "value": 0
-        },
-        {
-          "axis": "Q",
-          "cell": {
-            "q": 0,
+            "q": -2,
             "r": 2
           },
-          "justification": "count: q=0 already has 3 0s (cap reached), forces 1",
-          "step": 7,
+          "justification": "count: s=0 already has 3 0s (cap reached), forces 1",
+          "step": 6,
           "technique_tier": "T2",
           "value": 1
         }
