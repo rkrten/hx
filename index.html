@@ -11,7 +11,15 @@
             font-size: 16px; /* Base size for readability */
             line-height: 1.4;
         }
-        svg { max-width: 100%; height: auto; display: block; margin: 20px 0; }
+
+		svg {
+            max-width: 100%;
+            max-height: 60vh; /* Constrains height to 60% of the screen */
+            display: block;
+            margin: 20px auto;
+            user-select: none;
+            -webkit-user-select: none;
+        }
         .hex { fill: #ffffff; stroke: #333333; stroke-width: 1px; cursor: pointer; }
         .hex.axis-highlight { fill: #e0f7fa; stroke: #00acc1; stroke-width: 1.5px; }
         .hex.highlight { fill: #ffeb3b; stroke: #d32f2f; stroke-width: 2px; }
@@ -43,6 +51,8 @@
     <script>
         let puzzleData = null;
         let baseBoard = new Map();
+		let solvedBoard = new Map(); // Holds the final solution values
+		let longRevealedCells = new Set(); // Tracks manually revealed cells
         let currentSliderValue = 0;
         let clickedHintStep = null; // Tracks a manually clicked cell for hinting
 
@@ -67,6 +77,11 @@
 
                     puzzleData.board.cells.forEach(c => {
                         baseBoard.set(`${c.q},${c.r}`, c.v);
+                    });
+
+                    // Cache the final solution for long-press reveals
+                    puzzleData.metadata.solver.solution.forEach(c => {
+                        solvedBoard.set(`${c.q},${c.r}`, c.v);
                     });
 
                     document.getElementById('status-message').style.display = 'none';
@@ -149,18 +164,22 @@
             drawGrid(currentBoard, highlightStep);
         }
 
-        function drawGrid(currentBoard, activeStep) {
+		function drawGrid(currentBoard, activeStep) {
             const svg = document.getElementById('hex-grid');
             svg.innerHTML = '';
             const size = 15;
 
             baseBoard.forEach((_, key) => {
                 const [q, r] = key.split(',').map(Number);
-                const displayVal = currentBoard.get(key);
+                let displayVal = currentBoard.get(key);
+
+                // Override with persistent long-press reveal if not yet solved on timeline
+                if (displayVal === null && longRevealedCells.has(key)) {
+                    displayVal = solvedBoard.get(key);
+                }
 
                 let hexClass = "hex";
 
-                // Apply highlighting if there is an active step (from slider or click)
                 if (activeStep) {
                     const targetQ = activeStep.cell.q;
                     const targetR = activeStep.cell.r;
@@ -189,7 +208,29 @@
                 const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
                 polygon.setAttribute("points", points.join(" "));
                 polygon.setAttribute("class", hexClass);
-                polygon.addEventListener('click', () => handleHexClick(q, r));
+
+                // Long press and click handler logic
+                let pressTimer;
+                let isLongPress = false;
+
+                polygon.addEventListener('pointerdown', (e) => {
+                    isLongPress = false;
+                    pressTimer = setTimeout(() => {
+                        isLongPress = true;
+                        longRevealedCells.add(key);
+                        updateBoardState(currentSliderValue);
+                    }, 1000); // 1 second threshold
+                });
+
+                polygon.addEventListener('pointerup', () => clearTimeout(pressTimer));
+                polygon.addEventListener('pointerleave', () => clearTimeout(pressTimer));
+                polygon.addEventListener('contextmenu', (e) => e.preventDefault()); // Prevent mobile long-press menu
+
+                polygon.addEventListener('click', () => {
+                    if (isLongPress) return; // Prevent standard click if it was a long press
+                    handleHexClick(q, r);
+                });
+
                 svg.appendChild(polygon);
 
                 if (displayVal !== null) {
